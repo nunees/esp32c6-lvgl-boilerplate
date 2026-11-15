@@ -1,6 +1,9 @@
 #include "dashboard_screen.hpp"
 #include <cstdio>
 
+extern const lv_font_t fonts_awesome;
+extern const lv_font_t lv_font_montserrat_34;
+
 void DashboardScreen::create()
 {
     // Create base screen container matching the landscape 320x172 dimensions
@@ -27,6 +30,7 @@ void DashboardScreen::create()
     lv_obj_set_style_text_font(speed_label, &lv_font_montserrat_48, 0);
     lv_obj_set_style_text_color(speed_label, lv_color_white(), 0);
     lv_obj_align(speed_label, LV_ALIGN_CENTER, 0, 0);
+    lv_obj_set_style_text_font(speed_label, &fonts_awesome, 0);
     lv_label_set_text(speed_label, "\xEF\x98\x93");
 
     // speed_label = lv_label_create(screen);

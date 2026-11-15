@@ -29,7 +29,7 @@ esp_err_t backlight_init()
     channel.gpio_num = LCD_BL_PIN;
     channel.speed_mode = LEDC_MODE;
     channel.channel = LEDC_CHANNEL;
-    channel.intr_type = LEDC_INTR_DISABLE;
+   // channel.intr_type = LEDC_INTR_DISABLE;
     channel.timer_sel = LEDC_TIMER;
     channel.duty = 4095;
     channel.hpoint = 0;

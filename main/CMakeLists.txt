@@ -18,6 +18,7 @@ idf_component_register(
         "ui"
 
     REQUIRES
+        esp_timer
         esp_lcd
         esp_driver_spi
         esp_driver_ledc
