@@ -8,6 +8,8 @@ idf_component_register(
         "components/backlight/backlight.cpp"
         "communication/datalink/datalink.cpp"
         "components/wifi/wifi.cpp"
+        "tasks/ui_task.cpp"
+        "storage/telemetry_store.cpp"
         "screen/screen_manager.cpp"
         "ui/dashboard_screen.cpp"
         "fonts/fonts_awesome/fonts_awesome_34.c"
@@ -24,6 +26,8 @@ idf_component_register(
         "components/button"
         "components/backlight"
         "components/wifi"
+        "tasks"
+        "storage"
         "screen"
         "ui"
 

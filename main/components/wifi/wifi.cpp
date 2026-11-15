@@ -1,13 +1,15 @@
 #include "wifi.hpp"
+#include "esp_event.h"
 #include "esp_log.h"
+#include "esp_netif.h"
+#include "esp_wifi.h"
+#include "esp_wifi_default.h"
 #include "nvs_flash.h"
 #include <cstring>
 
 Wifi::Wifi() = default;
 
-Wifi::~Wifi() {
-  deinit();
-}
+Wifi::~Wifi() { deinit(); }
 
 esp_err_t Wifi::init(wifi_mode_t mode, uint8_t channel) {
   if (m_initialized) {
@@ -19,7 +21,8 @@ esp_err_t Wifi::init(wifi_mode_t mode, uint8_t channel) {
 
   // 1. Initialize NVS (Safe to call even if already initialized)
   esp_err_t ret = nvs_flash_init();
-  if (ret == ESP_ERR_NVS_NO_FREE_PAGES || ret == ESP_ERR_NVS_NEW_VERSION_FOUND) {
+  if (ret == ESP_ERR_NVS_NO_FREE_PAGES ||
+      ret == ESP_ERR_NVS_NEW_VERSION_FOUND) {
     ESP_ERROR_CHECK(nvs_flash_erase());
     ret = nvs_flash_init();
   }
@@ -46,7 +49,8 @@ esp_err_t Wifi::init(wifi_mode_t mode, uint8_t channel) {
 
   // 3. Register Event Handler for future STA/AP events
   ESP_ERROR_CHECK(esp_event_handler_instance_register(
-      WIFI_EVENT, ESP_EVENT_ANY_ID, &Wifi::wifi_event_handler_proxy, this, nullptr));
+      WIFI_EVENT, ESP_EVENT_ANY_ID, &Wifi::wifi_event_handler_proxy, this,
+      nullptr));
 
   // 4. Initialize and Start Wi-Fi Driver
   wifi_init_config_t cfg = WIFI_INIT_CONFIG_DEFAULT();
@@ -67,7 +71,8 @@ esp_err_t Wifi::init(wifi_mode_t mode, uint8_t channel) {
 }
 
 void Wifi::deinit() {
-  if (!m_initialized) return;
+  if (!m_initialized)
+    return;
 
   esp_wifi_stop();
   esp_wifi_deinit();
@@ -78,7 +83,8 @@ void Wifi::deinit() {
 bool Wifi::set_channel(uint8_t primary_channel, wifi_second_chan_t second) {
   esp_err_t err = esp_wifi_set_channel(primary_channel, second);
   if (err != ESP_OK) {
-    ESP_LOGE(TAG, "Failed to set Wi-Fi channel %d: %s", primary_channel, esp_err_to_name(err));
+    ESP_LOGE(TAG, "Failed to set Wi-Fi channel %d: %s", primary_channel,
+             esp_err_to_name(err));
     return false;
   }
   return true;
@@ -97,32 +103,36 @@ bool Wifi::get_mac_address(uint8_t *mac_out, wifi_interface_t iface) const {
 
 bool Wifi::connect_sta(const char *ssid, const char *password) {
   wifi_config_t wifi_config = {};
-  std::strncpy(reinterpret_cast<char *>(wifi_config.sta.ssid), ssid, sizeof(wifi_config.sta.ssid) - 1);
-  std::strncpy(reinterpret_cast<char *>(wifi_config.sta.password), password, sizeof(wifi_config.sta.password) - 1);
+  std::strncpy(reinterpret_cast<char *>(wifi_config.sta.ssid), ssid,
+               sizeof(wifi_config.sta.ssid) - 1);
+  std::strncpy(reinterpret_cast<char *>(wifi_config.sta.password), password,
+               sizeof(wifi_config.sta.password) - 1);
 
   ESP_ERROR_CHECK(esp_wifi_set_config(WIFI_IF_STA, &wifi_config));
   return (esp_wifi_connect() == ESP_OK);
 }
 
-bool Wifi::start_softap(const char *ssid, const char *password, uint8_t channel, uint8_t max_conn) {
+bool Wifi::start_softap(const char *ssid, const char *password, uint8_t channel,
+                        uint8_t max_conn) {
   wifi_config_t wifi_config = {};
-  std::strncpy(reinterpret_cast<char *>(wifi_config.ap.ssid), ssid, sizeof(wifi_config.ap.ssid) - 1);
+  std::strncpy(reinterpret_cast<char *>(wifi_config.ap.ssid), ssid,
+               sizeof(wifi_config.ap.ssid) - 1);
   wifi_config.ap.ssid_len = std::strlen(ssid);
   wifi_config.ap.channel = channel;
-  std::strncpy(reinterpret_cast<char *>(wifi_config.ap.password), password, sizeof(wifi_config.ap.password) - 1);
+  std::strncpy(reinterpret_cast<char *>(wifi_config.ap.password), password,
+               sizeof(wifi_config.ap.password) - 1);
   wifi_config.ap.max_connection = max_conn;
-  wifi_config.ap.authmode = (std::strlen(password) == 0) ? WIFI_AUTH_OPEN : WIFI_AUTH_WPA2_PSK;
+  wifi_config.ap.authmode =
+      (std::strlen(password) == 0) ? WIFI_AUTH_OPEN : WIFI_AUTH_WPA2_PSK;
 
   ESP_ERROR_CHECK(esp_wifi_set_config(WIFI_IF_AP, &wifi_config));
   return true;
 }
 
-void Wifi::register_event_callback(WifiEventCallback cb) {
-  m_event_cb = cb;
-}
+void Wifi::register_event_callback(WifiEventCallback cb) { m_event_cb = cb; }
 
 void Wifi::wifi_event_handler_proxy(void *arg, esp_event_base_t event_base,
-                                           int32_t event_id, void *event_data) {
+                                    int32_t event_id, void *event_data) {
   auto *self = static_cast<Wifi *>(arg);
   if (self && self->m_event_cb) {
     self->m_event_cb(event_base, event_id, event_data);

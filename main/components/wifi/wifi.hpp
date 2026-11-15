@@ -1,14 +1,16 @@
 #ifndef _WIFI_HPP
 #define _WIFI_HPP
 
-#include "esp_event.h"
-#include "esp_wifi.h"
+#include "esp_err.h"
+#include "esp_event_base.h"
+#include "esp_wifi_types_generic.h"
 #include <cstdint>
 #include <functional>
 
 class Wifi {
 public:
-  using WifiEventCallback = std::function<void(esp_event_base_t base, int32_t id, void *data)>;
+  using WifiEventCallback =
+      std::function<void(esp_event_base_t base, int32_t id, void *data)>;
 
   Wifi();
   ~Wifi();
@@ -18,13 +20,16 @@ public:
   void deinit();
 
   // Radio & Channel Control
-  bool set_channel(uint8_t primary_channel, wifi_second_chan_t second = WIFI_SECOND_CHAN_NONE);
+  bool set_channel(uint8_t primary_channel,
+                   wifi_second_chan_t second = WIFI_SECOND_CHAN_NONE);
   uint8_t get_channel() const;
-  bool get_mac_address(uint8_t *mac_out, wifi_interface_t iface = WIFI_IF_STA) const;
+  bool get_mac_address(uint8_t *mac_out,
+                       wifi_interface_t iface = WIFI_IF_STA) const;
 
   // Extensibility for future Station/AP features
   bool connect_sta(const char *ssid, const char *password);
-  bool start_softap(const char *ssid, const char *password, uint8_t channel = 1, uint8_t max_conn = 4);
+  bool start_softap(const char *ssid, const char *password, uint8_t channel = 1,
+                    uint8_t max_conn = 4);
   void register_event_callback(WifiEventCallback cb);
 
 private:

@@ -1,26 +1,30 @@
 #pragma once
 
+#include "datalink.hpp"
 #include "lvgl.h"
 
-class DashboardScreen
-{
+class DashboardScreen {
 public:
-    void create();
+  void create();
 
-    lv_obj_t *get_screen() const;
+  lv_obj_t *get_screen() const;
 
-    // Setter methods for real-time telemetry updates
-    void set_speed(uint16_t speed);
-    void set_coolant_temp(float temp);
-    void set_lambda(float lambda);
-    void set_battery_voltage(float voltage);
+  // Add telemetry update handler
+  void update_telemetry(const Datalink::EcuTelemetryData &telemetry);
+
+  // Setter methods for real-time telemetry updates
+  void set_speed(uint16_t speed);
+  void set_coolant_temp(float temp);
+  void set_lambda(float lambda);
+  void set_battery_voltage(float voltage);
 
 private:
-    lv_obj_t* screen = nullptr;
-    lv_obj_t* speed_label = nullptr;
-    lv_obj_t* speed_label_km = nullptr;
-    lv_obj_t* coolant_label = nullptr;
-    lv_obj_t* coolant_icon = nullptr;
-    lv_obj_t* lambda_label = nullptr;
-    lv_obj_t* battery_label = nullptr;
+  lv_obj_t *screen = nullptr;
+  lv_obj_t *rpm_label = nullptr;
+  lv_obj_t *speed_label = nullptr;
+  lv_obj_t *speed_label_km = nullptr;
+  lv_obj_t *coolant_label = nullptr;
+  lv_obj_t *coolant_icon = nullptr;
+  lv_obj_t *lambda_label = nullptr;
+  lv_obj_t *battery_label = nullptr;
 };

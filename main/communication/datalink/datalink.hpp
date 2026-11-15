@@ -1,9 +1,7 @@
 #ifndef _DATALINK_HPP
 #define _DATALINK_HPP
 
-#include "esp_log.h"
 #include "esp_now.h"
-#include "esp_wifi.h"
 #include <cstdint>
 #include <functional>
 
@@ -66,8 +64,8 @@ public:
 
   using TelemetryCallback = std::function<void(
       const uint8_t *mac_addr, const EcuTelemetryData &telemetry)>;
-  using ConfigCallback = std::function<void(
-      const uint8_t *mac_addr, const CarConfiguration &config)>;
+  using ConfigCallback = std::function<void(const uint8_t *mac_addr,
+                                            const CarConfiguration &config)>;
   using HandshakeCallback = std::function<void(
       const uint8_t *mac_addr, const HandshakePayload &handshake)>;
   using SendStatusCallback = std::function<void(const uint8_t *mac_addr,
@@ -94,7 +92,8 @@ public:
                           uint8_t dev_id);
 
   // Communication
-  bool send_telemetry(const uint8_t* dest_mac, const EcuTelemetryData& telemetry);
+  bool send_telemetry(const uint8_t *dest_mac,
+                      const EcuTelemetryData &telemetry);
   bool send_config(const uint8_t *dest_mac, const CarConfiguration &config);
 
   // Callbacks Registration
