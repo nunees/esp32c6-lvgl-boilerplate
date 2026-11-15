@@ -3,13 +3,18 @@
 #include "display.hpp"
 #include "lvgl_display.hpp"
 
+#include "screen_manager.hpp"
+#include "button.hpp"
+
 #include "esp_lvgl_port.h"
 #include "lvgl.h"
+
+static ScreenManager screen_manager;
+
 
 extern "C" void app_main()
 {
     ESP_ERROR_CHECK(display_init());
-
     ESP_ERROR_CHECK(lvgl_display_init());
 
     if (lvgl_port_lock(0)) {
@@ -31,4 +36,6 @@ extern "C" void app_main()
 
         lvgl_port_unlock();
     }
+
+    ESP_ERROR_CHECK(btn_init(&screen_manager));
 }
