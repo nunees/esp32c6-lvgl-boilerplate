@@ -7,6 +7,7 @@ idf_component_register(
         "components/backlight/backlight.cpp"
         "screen/screen_manager.cpp"
         "ui/dashboard_screen.cpp"
+        "fonts/fonts_awesome.c"
 
     INCLUDE_DIRS
         "."

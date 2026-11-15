@@ -6,28 +6,28 @@ void DashboardScreen::create()
     // Create base screen container matching the landscape 320x172 dimensions
     screen = lv_obj_create(nullptr);
     lv_obj_set_size(screen, 320, 172);
-    lv_obj_set_style_bg_color(screen, lv_color_white(), 0);
+    lv_obj_set_style_bg_color(screen, lv_color_black(), 0);
 
     // --- 1. Coolant Temperature (Top-Left Edge) ---
     coolant_label = lv_label_create(screen);
-    lv_obj_set_style_text_font(coolant_label, &lv_font_montserrat_14, 0);
+    lv_obj_set_style_text_font(coolant_label, &lv_font_montserrat_20, 0);
     lv_obj_set_style_text_color(coolant_label, lv_palette_main(LV_PALETTE_RED), 0);
     lv_obj_align(coolant_label, LV_ALIGN_TOP_LEFT, 12, 8);
-    lv_label_set_text(coolant_label, "CLT: --°C");
+    lv_label_set_text(coolant_label, "--°C");
 
     // // --- 2. Lambda Sensor (Top-Right Edge) ---
-    // lambda_label = lv_label_create(screen);
-    // lv_obj_set_style_text_font(lambda_label, &lv_font_montserrat_14, 0);
-    // lv_obj_set_style_text_color(lambda_label, lv_palette_main(LV_PALETTE_AMBER), 0);
-    // lv_obj_align(lambda_label, LV_ALIGN_TOP_RIGHT, -12, 8);
-    // lv_label_set_text(lambda_label, "AFR: --");
+    lambda_label = lv_label_create(screen);
+    lv_obj_set_style_text_font(lambda_label, &lv_font_montserrat_20, 0);
+    lv_obj_set_style_text_color(lambda_label, lv_palette_main(LV_PALETTE_AMBER), 0);
+    lv_obj_align(lambda_label, LV_ALIGN_TOP_RIGHT, -12, 8);
+    lv_label_set_text(lambda_label, "AFR: --");
 
     // // --- 3. Speed (Center) ---
-    // speed_label = lv_label_create(screen);
-    // lv_obj_set_style_text_font(speed_label, &lv_font_montserrat_40, 0);
-    // lv_obj_set_style_text_color(speed_label, lv_color_black(), 0);
-    // lv_obj_align(speed_label, LV_ALIGN_CENTER, 0, 0);
-    // lv_label_set_text(speed_label, "45");
+    speed_label = lv_label_create(screen);
+    lv_obj_set_style_text_font(speed_label, &lv_font_montserrat_48, 0);
+    lv_obj_set_style_text_color(speed_label, lv_color_white(), 0);
+    lv_obj_align(speed_label, LV_ALIGN_CENTER, 0, 0);
+    lv_label_set_text(speed_label, "\xEF\x98\x93");
 
     // speed_label = lv_label_create(screen);
 
