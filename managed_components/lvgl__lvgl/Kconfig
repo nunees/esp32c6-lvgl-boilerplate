@@ -513,6 +513,7 @@ menu "LVGL configuration"
                 bool "Enable Montserrat 26"
             config LV_FONT_MONTSERRAT_28
                 bool "Enable Montserrat 28"
+                default y
             config LV_FONT_MONTSERRAT_30
                 bool "Enable Montserrat 30"
             config LV_FONT_MONTSERRAT_32

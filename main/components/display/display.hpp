@@ -7,3 +7,4 @@
 esp_err_t display_init();
 esp_lcd_panel_io_handle_t display_get_io();
 esp_lcd_panel_handle_t display_get_panel();
+
