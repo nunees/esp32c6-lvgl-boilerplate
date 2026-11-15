@@ -7,7 +7,11 @@ idf_component_register(
         "components/backlight/backlight.cpp"
         "screen/screen_manager.cpp"
         "ui/dashboard_screen.cpp"
-        "fonts/fonts_awesome.c"
+        "fonts/fonts_awesome/fonts_awesome_34.c"
+        "fonts/fonts_awesome/fonts_awesome_72.c"
+        "fonts/fonts_awesome/fonts_awesome_100.c"
+        "fonts/big_digits/big_digits_72.c"
+        "fonts/big_digits/big_digits_100.c"
 
     INCLUDE_DIRS
         "."

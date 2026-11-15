@@ -1,1 +1,44 @@
 GPIO8 Controle led rgb
+
+Based on the provided fonts_awesome.c file, the custom font contains 12 Font Awesome icons. Here is what each icon represents according to its Unicode code point:   
+fonts_awesome.c
++ 1
+
+U+F057 (""): fa-times-circle (Circle Xmark / Close / Cancel)   
+fonts_awesome.c
+
+U+F061 (""): fa-arrow-right (Right Arrow / Directional)   
+fonts_awesome.c
+
+U+F06A (""): fa-exclamation-circle (Exclamation Warning Circle)   
+fonts_awesome.c
+
+U+F0AD (""): fa-wrench (Wrench / Tools / Settings)   
+fonts_awesome.c
+
+U+F0D8 (""): fa-caret-up (Caret Up / Upward Triangle)   
+fonts_awesome.c
+
+U+F0E7 (""): fa-bolt (Lightning Bolt / Power / Flash)   
+fonts_awesome.c
+
+U+F1B9 (""): fa-car (Automobile / Vehicle)   
+fonts_awesome.c
+
+U+F1EB (""): fa-wifi (Wi-Fi / Wireless Network)   
+fonts_awesome.c
+
+U+F5DF (""): fa-car-battery (Car Battery)   
+fonts_awesome.c
+
+U+F613 (""): fa-oil-can (Oil Can / Lubrication / Maintenance)   
+fonts_awesome.c
+
+U+F624 (""): fa-gauge (formerly fa-tachometer-alt, representing a Speedometer or Gauge)   
+fonts_awesome.c
+
+U+F769 (""): fa-temperature-high (High Temperature / Thermometer)   
+fonts_awesome.c
+
+C
+fonts_awesome.c

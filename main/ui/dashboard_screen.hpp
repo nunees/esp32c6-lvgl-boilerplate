@@ -18,7 +18,9 @@ public:
 private:
     lv_obj_t* screen = nullptr;
     lv_obj_t* speed_label = nullptr;
+    lv_obj_t* speed_label_km = nullptr;
     lv_obj_t* coolant_label = nullptr;
+    lv_obj_t* coolant_icon = nullptr;
     lv_obj_t* lambda_label = nullptr;
     lv_obj_t* battery_label = nullptr;
 };

@@ -1,8 +1,10 @@
 #include "dashboard_screen.hpp"
 #include <cstdio>
 
-extern const lv_font_t fonts_awesome;
+extern const lv_font_t fonts_awesome_34;
 extern const lv_font_t lv_font_montserrat_34;
+extern const lv_font_t big_digits_72;
+extern const lv_font_t big_digits_100;
 
 void DashboardScreen::create()
 {
@@ -11,12 +13,21 @@ void DashboardScreen::create()
     lv_obj_set_size(screen, 320, 172);
     lv_obj_set_style_bg_color(screen, lv_color_black(), 0);
 
-    // --- 1. Coolant Temperature (Top-Left Edge) ---
+    // COOLANT
+    // 1. Create the icon first (appears on the left)
+    coolant_icon = lv_label_create(screen);
+    lv_obj_set_style_text_font(coolant_icon, &fonts_awesome_34, 0);
+    lv_obj_set_style_text_color(coolant_icon, lv_palette_main(LV_PALETTE_RED), 0);
+    lv_obj_align(coolant_icon, LV_ALIGN_TOP_LEFT, 0, 0);
+    lv_label_set_text(coolant_icon, "\xEF\x9D\xA9"); // fa-temperature-high
+
+    // 2. Create the value label on its side (to the right)
     coolant_label = lv_label_create(screen);
-    lv_obj_set_style_text_font(coolant_label, &lv_font_montserrat_20, 0);
+    lv_obj_set_style_text_font(coolant_label, &lv_font_montserrat_18, 0);
     lv_obj_set_style_text_color(coolant_label, lv_palette_main(LV_PALETTE_RED), 0);
-    lv_obj_align(coolant_label, LV_ALIGN_TOP_LEFT, 12, 8);
-    lv_label_set_text(coolant_label, "--°C");
+    // Align to the right of the icon with a small 6-pixel gap, centered vertically relative to the icon
+    lv_obj_align_to(coolant_label, coolant_icon, LV_ALIGN_OUT_RIGHT_MID, 6, 0);
+    lv_label_set_text(coolant_label, "14");
 
     // // --- 2. Lambda Sensor (Top-Right Edge) ---
     lambda_label = lv_label_create(screen);
@@ -27,11 +38,17 @@ void DashboardScreen::create()
 
     // // --- 3. Speed (Center) ---
     speed_label = lv_label_create(screen);
-    lv_obj_set_style_text_font(speed_label, &lv_font_montserrat_48, 0);
+    // lv_obj_set_style_text_font(speed_label, &lv_font_montserrat_48, 0);
     lv_obj_set_style_text_color(speed_label, lv_color_white(), 0);
     lv_obj_align(speed_label, LV_ALIGN_CENTER, 0, 0);
-    lv_obj_set_style_text_font(speed_label, &fonts_awesome, 0);
-    lv_label_set_text(speed_label, "\xEF\x98\x93");
+    lv_obj_set_style_text_font(speed_label, &big_digits_100, 0);
+    lv_label_set_text(speed_label, "0");
+
+    speed_label_km = lv_label_create(screen);
+    lv_obj_set_style_text_font(speed_label_km, &lv_font_montserrat_18, 0);
+    lv_obj_set_style_text_color(speed_label_km, lv_color_white(), 0);
+    lv_obj_align(speed_label_km, LV_ALIGN_CENTER, 0, 50);
+    lv_label_set_text(speed_label_km, "Km/h");
 
     // speed_label = lv_label_create(screen);
 
