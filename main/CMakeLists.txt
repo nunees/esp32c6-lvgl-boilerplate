@@ -1,11 +1,13 @@
 idf_component_register(
     SRCS
         "main.cpp"
+        "app/app.cpp"
         "components/display/display.cpp"
         "components/display/lvgl_display.cpp"
         "components/button/button.cpp"
         "components/backlight/backlight.cpp"
         "communication/datalink/datalink.cpp"
+        "components/wifi/wifi.cpp"
         "screen/screen_manager.cpp"
         "ui/dashboard_screen.cpp"
         "fonts/fonts_awesome/fonts_awesome_34.c"
@@ -16,10 +18,12 @@ idf_component_register(
 
     INCLUDE_DIRS
         "."
+        "app"
         "communication/datalink"
         "components/display"
         "components/button"
         "components/backlight"
+        "components/wifi"
         "screen"
         "ui"
 

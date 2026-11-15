@@ -17,16 +17,9 @@ Datalink::~Datalink()
     deactivate();
 }
 
-bool Datalink::init(wifi_mode_t mode)
+bool Datalink::init()
 {
     ESP_LOGI(TAG, "Initializing Secure ESP-NOW Car Comm...");
-
-    wifi_init_config_t cfg = WIFI_INIT_CONFIG_DEFAULT();
-    ESP_ERROR_CHECK(esp_wifi_init(&cfg));
-    ESP_ERROR_CHECK(esp_wifi_set_storage(WIFI_STORAGE_RAM));
-    ESP_ERROR_CHECK(esp_wifi_set_mode(mode));
-    ESP_ERROR_CHECK(esp_wifi_start());
-    ESP_ERROR_CHECK(esp_wifi_set_channel(1, WIFI_SECOND_CHAN_NONE));
 
     if (esp_now_init() != ESP_OK)
     {

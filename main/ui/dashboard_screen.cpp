@@ -42,7 +42,7 @@ void DashboardScreen::create()
     lv_obj_set_style_text_color(speed_label, lv_color_white(), 0);
     lv_obj_align(speed_label, LV_ALIGN_CENTER, 0, 0);
     lv_obj_set_style_text_font(speed_label, &big_digits_100, 0);
-    lv_label_set_text(speed_label, "0");
+    set_speed(50);
 
     speed_label_km = lv_label_create(screen);
     lv_obj_set_style_text_font(speed_label_km, &lv_font_montserrat_18, 0);
@@ -50,46 +50,6 @@ void DashboardScreen::create()
     lv_obj_align(speed_label_km, LV_ALIGN_CENTER, 0, 50);
     lv_label_set_text(speed_label_km, "Km/h");
 
-    // speed_label = lv_label_create(screen);
-
-    // lv_label_set_text(speed_label, "0");
-
-    // lv_obj_set_style_text_font(
-    //     speed_label,
-    //     &lv_font_montserrat_40,
-    //     LV_PART_MAIN);
-
-    // lv_obj_set_style_text_color(
-    //     speed_label,
-    //     lv_color_white(),
-    //     LV_PART_MAIN);
-
-    // // Calculate label dimensions before setting the pivot
-    // lv_obj_update_layout(speed_label);
-
-    // lv_obj_set_style_transform_pivot_x(
-    //     speed_label,
-    //     lv_obj_get_width(speed_label) / 2,
-    //     LV_PART_MAIN);
-
-    // lv_obj_set_style_transform_pivot_y(
-    //     speed_label,
-    //     lv_obj_get_height(speed_label) / 2,
-    //     LV_PART_MAIN);
-
-    // lv_obj_set_style_transform_angle(
-    //     speed_label,
-    //     900,
-    //     LV_PART_MAIN);
-
-    // lv_obj_align(speed_label, LV_ALIGN_CENTER, 0, 0);
-
-    // // --- 4. Battery Voltage (Bottom Middle) ---
-    // battery_label = lv_label_create(screen);
-    // lv_obj_set_style_text_font(battery_label, &lv_font_montserrat_14, 0);
-    // lv_obj_set_style_text_color(battery_label, lv_palette_main(LV_PALETTE_GREEN), 0);
-    // lv_obj_align(battery_label, LV_ALIGN_BOTTOM_MID, 0, -8);
-    // lv_label_set_text(battery_label, "BAT: --V");
 }
 
 lv_obj_t *DashboardScreen::get_screen() const

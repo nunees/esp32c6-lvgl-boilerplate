@@ -7,6 +7,8 @@
 #include <cstdint>
 #include <functional>
 
+static const char *TAG = "DATALINK";
+
 class Datalink {
 public:
   enum class MessageType : uint8_t {
@@ -78,7 +80,7 @@ public:
   Datalink();
   ~Datalink();
 
-  bool init(wifi_mode_t mode = WIFI_MODE_STA);
+  bool init();
   void deactivate();
 
   // Security & Pairing
@@ -102,7 +104,6 @@ public:
   void register_send_status_callback(SendStatusCallback cb);
 
 private:
-  static constexpr const char *TAG = "Datalink"; 
   inline static Datalink *s_instance = nullptr;
 
   TelemetryCallback m_telemetry_cb = nullptr;

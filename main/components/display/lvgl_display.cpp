@@ -4,35 +4,48 @@
 #include "esp_lvgl_port.h"
 #include "esp_lcd_panel_io.h"
 #include "esp_lcd_panel_ops.h"
-
 #include "esp_check.h"
-
+#include "esp_log.h"
 #include "lvgl.h"
 
-static constexpr int LCD_WIDTH = 320;
-static constexpr int LCD_HEIGHT = 172;
-
-esp_err_t lvgl_display_init()
+LvglDisplay::LvglDisplay(
+    Display& display,
+    int width,
+    int height,
+    int buffer_rows
+)
+    : display_(display),
+      width_(width),
+      height_(height),
+      buffer_rows_(buffer_rows),
+      m_disp_handle(nullptr)
 {
+}
+
+LvglDisplay::~LvglDisplay() {
+    // LVGL port lifecycle is usually persistent throughout application lifetime
+}
+
+esp_err_t LvglDisplay::init() {
+    ESP_LOGI(TAG, "Initializing LVGL display subsystem (%dx%d)...", width_, height_);
+
     // Initialize LVGL and its background task
     const lvgl_port_cfg_t lvgl_config = ESP_LVGL_PORT_INIT_CONFIG();
-
     ESP_RETURN_ON_ERROR(
         lvgl_port_init(&lvgl_config),
-        "LVGL", "LVGL initialization failed");
+        TAG, "LVGL initialization failed");
 
     // Register the physical display with LVGL
     lvgl_port_display_cfg_t display_config = {};
+    display_config.io_handle = display_.get_io();
+    display_config.panel_handle = display_.get_panel();
 
-    display_config.io_handle = display_get_io();
-    display_config.panel_handle = display_get_panel();
-
-    // Partial rendering buffer: 40 rows
-    display_config.buffer_size = LCD_WIDTH * 40;
+    // Partial rendering buffer size configuration
+    display_config.buffer_size = width_ * buffer_rows_;
     display_config.double_buffer = true;
 
-    display_config.hres = LCD_WIDTH;
-    display_config.vres = LCD_HEIGHT;
+    display_config.hres = width_;
+    display_config.vres = height_;
 
     display_config.monochrome = false;
 
@@ -43,29 +56,19 @@ esp_err_t lvgl_display_init()
     display_config.flags.buff_dma = true;
 
     // Register display and obtain LVGL display handle
-    lv_disp_t *lvgl_disp = lvgl_port_add_disp(&display_config);
-    // Rotate the entire display 90 degrees
-    lv_disp_set_rotation(lvgl_disp, LV_DISP_ROT_180);
-
-    if (lvgl_disp == nullptr) {
+    m_disp_handle = lvgl_port_add_disp(&display_config);
+    if (m_disp_handle == nullptr) {
+        ESP_LOGE(TAG, "Failed to add LVGL display to port");
         return ESP_FAIL;
     }
 
-    
+    // Rotate the entire display 180 degrees
+    lv_disp_set_rotation(m_disp_handle, LV_DISP_ROT_180);
 
-    //return ESP_OK;
-
-    // if (lvgl_port_add_disp(&display_config) == nullptr) {
-    //     return ESP_FAIL;
-    // }
-
-    //  lvgl_port_add_disp(&display_config);
-    // lv_disp_set_rotation(lvgl_disp, LV_DISP_ROT_90);
-
-    // if (lvgl_disp == nullptr)
-    // {
-    //     return ESP_FAIL;
-    // }
-
+    ESP_LOGI(TAG, "LVGL display initialized successfully");
     return ESP_OK;
+}
+
+lv_disp_t* LvglDisplay::get_display_handle() const {
+    return m_disp_handle;
 }
