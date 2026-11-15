@@ -5,6 +5,7 @@ idf_component_register(
         "components/display/lvgl_display.cpp"
         "components/button/button.cpp"
         "components/backlight/backlight.cpp"
+        "communication/datalink/datalink.cpp"
         "screen/screen_manager.cpp"
         "ui/dashboard_screen.cpp"
         "fonts/fonts_awesome/fonts_awesome_34.c"
@@ -15,6 +16,7 @@ idf_component_register(
 
     INCLUDE_DIRS
         "."
+        "communication/datalink"
         "components/display"
         "components/button"
         "components/backlight"
@@ -24,8 +26,10 @@ idf_component_register(
     REQUIRES
         esp_timer
         esp_lcd
+        esp_wifi
         esp_driver_spi
         esp_driver_ledc
         esp_lvgl_port
+        nvs_flash
         lvgl
 )
